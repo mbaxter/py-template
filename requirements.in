@@ -1,0 +1,9 @@
+# Dev
+pip-tools
+pre-commit
+ruff # Linter
+black # Code formatter
+
+#Testing
+pytest
+pytest-mock

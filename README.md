@@ -4,24 +4,23 @@
 **Important**: For regular projects that have already been initialized, these instructions don't apply.
 
 Template setup instructions:
+- Update the python version if necessary:
+  - Update `.python-version` to set your project's python version.
+  - Update "target-version" in `pyproject.toml`. This field is used by tools like `ruff` (a linter) to determine what language features to support.  Set this to match `.python-version` or set it to a lower value for greater backwards compatibility.
+- Make sure [pyenv](https://github.com/pyenv/pyenv#getting-pyenv) is installed on your machine.
+- From the terminal, `cd` to your project and initialize it with:
+  - ```shell
+    pyenv install $(cat .python-version)
+    python3 -m venv venv
+    source venv/bin/activate
+    ./venv/bin/pip install pip-tools
+    pip-compile
+    pip-sync
+    pre-commit install
+    ```
+- Change folder "package_name" to match your project name
 - Update README title
 - Remove this section from README
-- Change folder "package_name" to match your project name
-- Run code below to initialize project
-
-```shell
-pyenv install $(cat .python-version)
-python3 -m venv venv
-source venv/bin/activate
-./venv/bin/pip install pip-tools
-pip-compile
-pip-sync
-```
-
-Install git hooks:
-```shell
-pre-commit install
-```
 
 ## Local Development
 

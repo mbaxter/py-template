@@ -7,6 +7,7 @@ Template setup instructions:
 - Update the python version if necessary:
   - Update `.python-version` to set your project's python version.
   - Update "target-version" in `pyproject.toml`. This field is used by tools like `ruff` (a linter) to determine what language features to support.  Set this to match `.python-version` or set it to a lower value for greater backwards compatibility.
+- Make sure [pyenv](https://github.com/pyenv/pyenv#getting-pyenv) is installed on your machine.
 - Run code below to initialize project:
   - ```shell
     pyenv install $(cat .python-version)

@@ -7,22 +7,46 @@ Template setup instructions:
 - Update the python version if necessary:
   - Update `.python-version` to set your project's python version.
   - Update "target-version" in `pyproject.toml`. This field is used by tools like `ruff` (a linter) to determine what language features to support.  Set this to match `.python-version` or set it to a lower value for greater backwards compatibility.
-- Make sure [pyenv](https://github.com/pyenv/pyenv#getting-pyenv) is installed on your machine.
-- From the terminal, `cd` to your project and initialize it with:
-  - ```shell
-    pyenv install $(cat .python-version)
-    python3 -m venv venv
-    source venv/bin/activate
-    ./venv/bin/pip install pip-tools
-    pip-compile
-    pip-sync
-    pre-commit install
-    ```
+  - Update `tool.poetry.dependencies` `python` variable in `pyproject.toml`
+  - Update `[.pre-commit-config.yaml](.pre-commit-config.yaml)` "language_version" variable
+- Update project variables `pyproject.toml`:
+  - Set project `name` variable
+  - Set project `description` variable
+  - Set project `version` variable
+  - Set project `authors` variable
 - Change folder "package_name" to match your project name
 - Update README title
+- Follow the instructions in the [Setup section](#setup)
 - Remove this section from README
 
 ## Local Development
+
+### Setup
+
+#### Python
+Manage python version with [pyenv](https://github.com/pyenv/pyenv#getting-pyenv).
+Just install pyenv and make sure you have the correct python version installed before setting up your virtual env below:
+
+```shell
+pyenv install $(cat .python-version)
+```
+#### Dependencies
+Make sure you have poetry installed:
+- Poetry can be installed via [pipx](https://pipx.pypa.io/latest/installation/)
+- Install poetry with: `pipx install poetry`
+
+Setup your venv and install requirements:
+```shell
+poetry shell
+poetry install
+poetry upgrade
+```
+
+#### Dev environment
+Install git hooks:
+```shell
+pre-commit install
+```
 
 ### Testing
 To run unit tests:
@@ -30,30 +54,17 @@ To run unit tests:
 pytest
 ```
 
-### Setup
+### Virtual env ###
+Use poetry to manage your virtual env
 
-Manage python version with [pyenv](https://github.com/pyenv/pyenv#getting-pyenv).
-Just install pyenv and make sure you have the correct python version installed before setting up your virtual env below:
-
+Activate your venv with:
 ```shell
-pyenv install $(cat .python-version)
+poetry shell
 ```
 
-Setup your venv and install requirements:
+Deactivate your venv with:
 ```shell
-python3 -m venv venv
-source venv/bin/activate
-./venv/bin/pip install -r requirements.txt
-```
-
-Install git hooks:
-```shell
-pre-commit install
-```
-
-Deactivate your venv:
-```shell
-deactivate
+exit
 ```
 
 ### Linter ###
@@ -72,24 +83,29 @@ ruff check --fix .
 black .
 ```
 
-### Managing dependencies with pip-tools
+### Managing dependencies with poetry
 
-Save updated requirements:
+Add dependencies:
 ```shell
-pip-compile
+poetry add <dep1> <dep2>
 ```
 
-Update env:
+Add a dev dependency:
 ```shell
-pip-sync
+poetry add --group=dev <dep>
 ```
 
-Update requirements:
+Add a test dependency:
 ```shell
-pip-compile --upgrade
+poetry add --group=test <dep>
 ```
 
-Update a specific package:
+Update a dependency:
 ```shell
-pip-compile --upgrade-package <pkg-name>
+poetry upgrade <dep>
+```
+
+Update all dependencies:
+```shell
+poetry upgrade
 ```

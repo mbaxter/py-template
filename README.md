@@ -39,7 +39,7 @@ Make sure you have poetry installed:
 Set the poetry config with:
 ```shell
 poetry config virtualenvs.prefer-active-python true
-poetry config config virtualenvs.in-project true
+poetry config virtualenvs.in-project true
 ```
 The `prefer-active-python` setting tells poetry to use the version of python currently active in the shell.  This will ensure that your `pyenv` python version is respected by poetry.
 The `virtualenvs.in-project` setting tells poetry to save your virtual env within your project instead of in a global cache.

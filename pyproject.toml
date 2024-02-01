@@ -62,7 +62,6 @@ readme = "README.md"
 python = "^3.10,<3.12"
 
 [tool.poetry.group.dev.dependencies]
-pip-tools = "^7.3.0"
 pre-commit = "^3.6.0"
 ruff = "^0.1.8"
 black = "^23.12.0"

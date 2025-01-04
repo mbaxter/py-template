@@ -8,7 +8,6 @@ Template setup instructions:
   - Update `.python-version` to set your project's python version.
   - Update "target-version" in `pyproject.toml`. This field is used by tools like `ruff` (a linter) to determine what language features to support.  Set this to match `.python-version` or set it to a lower value for greater backwards compatibility.
   - Update `tool.poetry.dependencies.python` variable in `pyproject.toml`
-  - Update `[.pre-commit-config.yaml](.pre-commit-config.yaml)` "language_version" variable
   - Update your [/.github/workflows](./.github/workflows) `matrix.python-version` arrays
 - Update project variables `pyproject.toml`:
   - Set project `name` variable

@@ -131,9 +131,11 @@ def update_python_version(config: ProjectConfig) -> None:
         content = f.read()
     
     # Update Python dependency version
+    major, minor = map(int, config.python_version.split("."))
+    next_minor = f"{major}.{minor + 1}"
     content = re.sub(
         r'python = "\^[0-9.]+,<[0-9.]+"',
-        f'python = "^{config.python_version},<{float(config.python_version) + 0.1:.1f}"',
+        f'python = "^{config.python_version},<{next_minor}"',
         content
     )
     
@@ -176,8 +178,9 @@ def update_readme(config: ProjectConfig) -> None:
     with open("README.md", "r") as f:
         content = f.read()
     
-    # Update title
-    content = re.sub(r"# Python Template Project", f"# {config.name}", content)
+    # Update title - convert snake_case to Title Case
+    title = config.name.replace("_", " ").title()
+    content = re.sub(r"# Python Template Project", f"# {title}", content)
     
     # Remove template instructions section
     content = re.sub(

@@ -3,7 +3,21 @@
 ## Initialize New Project from Template
 **Important**: For regular projects that have already been initialized, these instructions don't apply.
 
-Template setup instructions:
+### Quick Setup (Recommended)
+Run the interactive setup script:
+```shell
+python init_project.py
+```
+
+The script will guide you through:
+- Setting project name and metadata
+- Choosing Python version
+- Setting up author information
+- Selecting a license (optional)
+
+### Manual Setup (Alternative)
+If you prefer to set up manually, follow these steps:
+
 1. Set your Python version:
    - Set version in `.python-version`
    - Update Python version constraints in `pyproject.toml`:
@@ -31,7 +45,11 @@ Template setup instructions:
    - Change the project title at the top
    - Remove this "Initialize New Project from Template" section when done
 
-5. Follow setup instructions below
+5. Choose a license (optional):
+   - Visit [choosealicense.com](https://choosealicense.com/) to select a license
+   - Add the license text to a LICENSE file
+
+After either setup method, proceed to the Development Setup below.
 
 ## Local Development
 

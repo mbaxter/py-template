@@ -4,116 +4,100 @@
 **Important**: For regular projects that have already been initialized, these instructions don't apply.
 
 Template setup instructions:
-- Update the python version if necessary:
-  - Update `.python-version` to set your project's python version.
-  - Update "target-version" in `pyproject.toml`. This field is used by tools like `ruff` (a linter) to determine what language features to support.  Set this to match `.python-version` or set it to a lower value for greater backwards compatibility.
-  - Update `tool.poetry.dependencies.python` variable in `pyproject.toml`
-  - Update your [/.github/workflows](./.github/workflows) `matrix.python-version` arrays
-- Update project variables `pyproject.toml`:
-  - Set project `name` variable
-  - Set project `description` variable
-  - Set project `version` variable
-  - Set project `authors` variable
-- Change folder "package_name" to match your project name
-- Update README title
-- Follow the instructions in the [Setup section](#setup)
-- Remove this section from README
+1. Set your Python version:
+   - Set version in `.python-version`
+   - Update Python version constraints in `pyproject.toml`:
+     ```toml
+     [tool.poetry.dependencies]
+     python = "^3.10,<3.12"  # Update this line
+     
+     [tool.ruff]
+     target-version = "py310"  # Update this line
+     ```
+   - Update GitHub Actions Python version in `.github/workflows`
+
+2. Update project metadata in `pyproject.toml`:
+   ```toml
+   [tool.poetry]
+   name = "your-project-name"
+   version = "0.1.0"
+   description = "Your project description"
+   authors = ["Your Name <your.email@example.com>"]
+   ```
+
+3. Rename `package_name` directory to match your project name
+
+4. Update README:
+   - Change the project title at the top
+   - Remove this "Initialize New Project from Template" section when done
+
+5. Follow setup instructions below
 
 ## Local Development
 
 ### Setup
 
-#### Python
-Manage python version with [pyenv](https://github.com/pyenv/pyenv#getting-pyenv).
-Just install pyenv and make sure you have the correct python version installed before setting up your virtual env below:
+1. **Install Python**
+   ```shell
+   # Install pyenv if you haven't already: https://github.com/pyenv/pyenv#getting-pyenv
+   pyenv install $(cat .python-version)
+   ```
 
-```shell
-pyenv install $(cat .python-version)
-```
-#### Dependencies
-Make sure you have poetry installed:
-- Poetry can be installed via [pipx](https://pipx.pypa.io/latest/installation/)
-- Install poetry with: `pipx install poetry`
+2. **Install Poetry**
+   ```shell
+   # Install pipx if you haven't already: https://pipx.pypa.io/latest/installation/
+   pipx install poetry
+   
+   # Configure Poetry
+   poetry config virtualenvs.prefer-active-python true
+   poetry config virtualenvs.in-project true
+   ```
 
-Set the poetry config with:
-```shell
-poetry config virtualenvs.prefer-active-python true
-poetry config virtualenvs.in-project true
-```
-The `prefer-active-python` setting tells poetry to use the version of python currently active in the shell.  This will ensure that your `pyenv` python version is respected by poetry.
-The `virtualenvs.in-project` setting tells poetry to save your virtual env within your project instead of in a global cache.
+3. **Setup Project**
+   ```shell
+   poetry install  # Install dependencies and create virtualenv
+   poetry update  # Update dependencies to latest compatible versions
+   poetry shell   # Activate virtualenv
+   pre-commit install  # Setup git hooks
+   ```
 
-Setup your venv and install requirements:
-```shell
-poetry shell
-poetry install
-poetry upgrade
-```
+### Development Tools
 
-#### Dev environment
-Install git hooks:
-```shell
-pre-commit install
-```
+All code quality tools run automatically on commit via pre-commit hooks:
+- **Black**: Code formatting
+- **Ruff**: Fast Python linter
+- **MyPy**: Static type checking
+- **Pytest**: Testing (including doctests)
+- **Safety**: Dependency vulnerability checking
+- **Bandit**: Security linting
 
-### Testing
-To run unit tests:
+To run tools manually:
 ```shell
+# Testing
 pytest
-```
 
-### Virtual env ###
-Use poetry to manage your virtual env
-
-Activate your venv with:
-```shell
-poetry shell
-```
-
-Deactivate your venv with:
-```shell
-exit
-```
-
-### Linter ###
-To check linting rules:
-```shell
-ruff check .
-```
-
-To automatically fix linting issues where possible:
-```shell
-ruff check --fix . 
-```
-
-### Code Formatter ###
-```shell
+# Linting/Formatting (only needed if you want to run before committing)
 black .
+ruff check --fix .
+mypy .
+bandit -r .
+safety check
 ```
 
-### Managing dependencies with poetry
-
-Add dependencies:
+### Virtual Environment
 ```shell
-poetry add <dep1> <dep2>
+poetry shell  # Activate
+exit         # Deactivate
 ```
 
-Add a dev dependency:
+### Managing Dependencies
 ```shell
-poetry add --group=dev <dep>
-```
+# Add dependencies
+poetry add <package>              # Regular dependency
+poetry add --group=dev <package>  # Development dependency
+poetry add --group=test <package> # Test dependency
 
-Add a test dependency:
-```shell
-poetry add --group=test <dep>
-```
-
-Update a dependency:
-```shell
-poetry upgrade <dep>
-```
-
-Update all dependencies:
-```shell
-poetry upgrade
+# Update dependencies
+poetry update  # Update all dependencies
+poetry update <package>  # Update specific package
 ```

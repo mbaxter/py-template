@@ -258,11 +258,10 @@ def main() -> None:
         print("You may want to delete init_project.py manually.")
     
     print("\nNext steps:")
+    print("- Follow the setup instructions in README.md")
     if config.license_type != "none":
-        print("1. Review the generated license file")
-    print("2. Initialize a new git repository")
-    print("3. Follow the setup instructions in README.md")
-
+        print("- Review the generated license file")
+    print() # New line at the end
 
 if __name__ == "__main__":
     main() 

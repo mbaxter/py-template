@@ -53,31 +53,34 @@ After either setup method, proceed to the Development Setup below.
 
 ## Local Development
 
-### Setup
+### Prerequisites
+This project uses pyenv for Python version management and Poetry for dependency management.
 
-1. **Install Python**
-   ```shell
-   # Install pyenv if you haven't already: https://github.com/pyenv/pyenv#getting-pyenv
-   pyenv install $(cat .python-version)
-   ```
+Install pyenv:
+- Follow the installation guide at https://github.com/pyenv/pyenv#getting-pyenv
 
-2. **Install Poetry**
-   ```shell
-   # Install pipx if you haven't already: https://pipx.pypa.io/latest/installation/
-   pipx install poetry
-   
-   # Configure Poetry
-   poetry config virtualenvs.prefer-active-python true
-   poetry config virtualenvs.in-project true
-   ```
+Install and configure Poetry:
+```shell
+pipx install poetry
+poetry config virtualenvs.prefer-active-python true
+poetry config virtualenvs.in-project true
+```
 
-3. **Setup Project**
-   ```shell
-   poetry install  # Install dependencies and create virtualenv
-   poetry update  # Update dependencies to latest compatible versions
-   poetry shell   # Activate virtualenv
-   pre-commit install  # Setup git hooks
-   ```
+### Project Setup
+
+Install Project Python Version:
+```shell
+pyenv install $(cat .python-version)
+```
+
+Setup Development Environment:
+Install dependencies, update to latest compatible versions, activate virtualenv, and set up git hooks:
+```shell
+poetry install
+poetry update
+poetry shell
+pre-commit install
+```
 
 ### Development Tools
 
@@ -91,10 +94,7 @@ All code quality tools run automatically on commit via pre-commit hooks:
 
 To run tools manually:
 ```shell
-# Testing
 pytest
-
-# Linting/Formatting (only needed if you want to run before committing)
 black .
 ruff check --fix .
 mypy .
@@ -103,19 +103,23 @@ safety check
 ```
 
 ### Virtual Environment
+
 ```shell
-poetry shell  # Activate
-exit         # Deactivate
+poetry shell  # Activate virtualenv
+exit          # Deactivate virtualenv
 ```
 
 ### Managing Dependencies
-```shell
-# Add dependencies
-poetry add <package>              # Regular dependency
-poetry add --group=dev <package>  # Development dependency
-poetry add --group=test <package> # Test dependency
 
-# Update dependencies
-poetry update  # Update all dependencies
-poetry update <package>  # Update specific package
+Add new dependencies:
+```shell
+poetry add <package>              # Add regular dependency
+poetry add --group=dev <package>  # Add dev dependency
+poetry add --group=test <package> # Add test dependency
+```
+
+Update dependencies:
+```shell
+poetry update           # Update all dependencies
+poetry update <package> # Update a specific dependency
 ```

@@ -169,8 +169,32 @@ def update_project_metadata(config: ProjectConfig) -> None:
 
 
 def rename_package_directory(config: ProjectConfig) -> None:
-    """Rename the package directory to match project name."""
+    """Rename the package directory and update imports."""
+    # Rename the directory
     os.rename("package_name", config.name)
+    
+    # Update imports in test files
+    test_dir = "tests"
+    if os.path.exists(test_dir):
+        for file in os.listdir(test_dir):
+            if file.endswith(".py"):
+                file_path = os.path.join(test_dir, file)
+                with open(file_path, "r") as f:
+                    content = f.read()
+                
+                content = re.sub(
+                    r"from\s+package_name\b",
+                    f"from {config.name}",
+                    content
+                )
+                content = re.sub(
+                    r"import\s+package_name\b",
+                    f"import {config.name}",
+                    content
+                )
+                
+                with open(file_path, "w") as f:
+                    f.write(content)
 
 
 def update_readme(config: ProjectConfig) -> None:

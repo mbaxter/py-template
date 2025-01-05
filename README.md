@@ -94,12 +94,18 @@ All code quality tools run automatically on commit via pre-commit hooks:
 
 To run tools manually:
 ```shell
+# Run all checks
+pre-commit run --all-files
+
+# Or run individual tools
+pre-commit run black --all-files
+pre-commit run ruff --all-files
+pre-commit run mypy --all-files
+pre-commit run bandit --all-files
+pre-commit run safety --all-files
+
+# Only pytest needs to run directly since it uses the project environment
 pytest
-black .
-ruff check --fix .
-mypy .
-bandit -r .
-safety check
 ```
 
 ### Virtual Environment

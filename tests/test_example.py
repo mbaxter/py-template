@@ -7,10 +7,10 @@ from package_name.example import add, divide, average
 @pytest.mark.parametrize(
     "a,b,expected",
     [
-        (1, 2, 3),           # Integer addition
-        (-1, 1, 0),          # Handling negative numbers
-        (1.5, 2.5, 4.0),     # Float addition
-        (0, 0, 0),           # Zero handling
+        (1, 2, 3),  # Integer addition
+        (-1, 1, 0),  # Handling negative numbers
+        (1.5, 2.5, 4.0),  # Float addition
+        (0, 0, 0),  # Zero handling
     ],
 )
 def test_add(a: float, b: float, expected: float) -> None:
@@ -20,15 +20,15 @@ def test_add(a: float, b: float, expected: float) -> None:
 
 class TestDivide:
     """Group tests for divide function to demonstrate class-based testing."""
-    
+
     @pytest.mark.parametrize(
         "a,b,expected",
         [
-            (6, 2, 3.0),     # Integer division
-            (5, 2, 2.5),     # Division with remainder
-            (-6, 2, -3.0),   # Negative number division
+            (6, 2, 3.0),  # Integer division
+            (5, 2, 2.5),  # Division with remainder
+            (-6, 2, -3.0),  # Negative number division
             (1.5, 2, 0.75),  # Float division
-        ]
+        ],
     )
     def test_basic_division(self, a: float, b: float, expected: float) -> None:
         """Test basic division operations with various inputs."""

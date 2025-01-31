@@ -85,8 +85,8 @@ def average(numbers: List[Union[int, float]]) -> float:
     """
     if not numbers:
         raise ValueError("Cannot calculate average of empty list")
-    
+
     if not all(isinstance(x, (int, float)) for x in numbers):
         raise TypeError("All inputs must be numbers")
-    
+
     return sum(numbers) / len(numbers)

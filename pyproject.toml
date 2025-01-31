@@ -87,8 +87,3 @@ warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
 strict_equality = true
-
-###### Bandit Config ######
-[tool.bandit]
-exclude_dirs = ["tests", "venv", ".git", "__pycache__"]
-skips = ["B101"]  # Skip assert warnings as they are common in tests

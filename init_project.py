@@ -60,7 +60,7 @@ def fetch_license_text(license_key: str, author_name: str) -> Optional[str]:
             data = json.loads(response.read())
 
             # Get the license text and replace placeholders
-            text = data["body"]
+            text: str = data["body"]
             year = str(datetime.now().year)
             text = text.replace("[year]", year)
             text = text.replace("[yyyy]", year)

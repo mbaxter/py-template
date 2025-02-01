@@ -23,9 +23,9 @@ jobs:
         uses: snok/install-poetry@v1
       - name: Install dependencies
         run: poetry install
+      - name: Lint with ruff
+        run: poetry run pre-commit run ruff --all-files
       - name: Format with black
         run: poetry run pre-commit run black --all-files
       - name: Type check with mypy
         run: poetry run pre-commit run mypy --all-files
-      - name: Lint with ruff
-        run: poetry run pre-commit run ruff --all-files

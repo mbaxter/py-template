@@ -1,4 +1,4 @@
-name: Tests
+name: Code Quality
 
 on:
   push:
@@ -7,11 +7,14 @@ on:
     branches: ['main']
 
 jobs:
-  pytest:
+  check:
+    name: ${{ matrix.checker }} (${{ matrix.python-version }})
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: true
       matrix:
         python-version: ["3.11"]
+        checker: [black, mypy, ruff]
 
     steps:
       - uses: actions/checkout@v3
@@ -22,6 +25,6 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
       - name: Install dependencies
-        run: poetry install --with test
-      - name: Test with pytest
-        run: poetry run pytest
+        run: poetry install
+      - name: Run ${{ matrix.checker }}
+        run: poetry run pre-commit run ${{ matrix.checker }} --all-files

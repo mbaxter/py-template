@@ -3,118 +3,125 @@
 ## Initialize New Project from Template
 **Important**: For regular projects that have already been initialized, these instructions don't apply.
 
-Template setup instructions:
-- Update the python version if necessary:
-  - Update `.python-version` to set your project's python version.
-  - Update "target-version" in `pyproject.toml`. This field is used by tools like `ruff` (a linter) to determine what language features to support.  Set this to match `.python-version` or set it to a lower value for greater backwards compatibility.
-  - Update `tool.poetry.dependencies.python` variable in `pyproject.toml`
-  - Update `[.pre-commit-config.yaml](.pre-commit-config.yaml)` "language_version" variable
-  - Update your [/.github/workflows](./.github/workflows) `matrix.python-version` arrays
-- Update project variables `pyproject.toml`:
-  - Set project `name` variable
-  - Set project `description` variable
-  - Set project `version` variable
-  - Set project `authors` variable
-- Change folder "package_name" to match your project name
-- Update README title
-- Follow the instructions in the [Setup section](#setup)
-- Remove this section from README
+### Quick Setup (Recommended)
+Run the interactive setup script:
+```shell
+python init_project.py
+```
+
+The script will guide you through:
+- Setting project name and metadata
+- Choosing Python version
+- Setting up author information
+- Selecting a license (optional)
+
+### Manual Setup (Alternative)
+If you prefer to set up manually, follow these steps:
+
+1. Set your Python version:
+   - Set version in `.python-version`
+   - Update Python version constraints in `pyproject.toml`:
+     ```toml
+     [tool.poetry.dependencies]
+     python = "^3.10,<3.12"  # Update this line
+     
+     [tool.ruff]
+     target-version = "py310"  # Update this line
+     ```
+   - Update GitHub Actions Python version in `.github/workflows`
+
+2. Update project metadata in `pyproject.toml`:
+   ```toml
+   [tool.poetry]
+   name = "your-project-name"
+   version = "0.1.0"
+   description = "Your project description"
+   authors = ["Your Name <your.email@example.com>"]
+   ```
+
+3. Rename `package_name` directory to match your project name
+
+4. Update README:
+   - Change the project title at the top
+   - Remove this "Initialize New Project from Template" section when done
+
+5. Choose a license (optional):
+   - Visit [choosealicense.com](https://choosealicense.com/) to select a license
+   - Add the license text to a LICENSE file
+
+After either setup method, proceed to the Development Setup below.
 
 ## Local Development
 
-### Setup
+### Prerequisites
+This project uses pyenv for Python version management and Poetry for dependency management.
 
-#### Python
-Manage python version with [pyenv](https://github.com/pyenv/pyenv#getting-pyenv).
-Just install pyenv and make sure you have the correct python version installed before setting up your virtual env below:
+Install pyenv:
+- Follow the installation guide at https://github.com/pyenv/pyenv#getting-pyenv
 
+Install and configure Poetry:
 ```shell
-pyenv install $(cat .python-version)
-```
-#### Dependencies
-Make sure you have poetry installed:
-- Poetry can be installed via [pipx](https://pipx.pypa.io/latest/installation/)
-- Install poetry with: `pipx install poetry`
-
-Set the poetry config with:
-```shell
+pipx install poetry
 poetry config virtualenvs.prefer-active-python true
 poetry config virtualenvs.in-project true
 ```
-The `prefer-active-python` setting tells poetry to use the version of python currently active in the shell.  This will ensure that your `pyenv` python version is respected by poetry.
-The `virtualenvs.in-project` setting tells poetry to save your virtual env within your project instead of in a global cache.
 
-Setup your venv and install requirements:
+### Project Setup
+
+Install Project Python Version:
 ```shell
-poetry shell
-poetry install
-poetry upgrade
+pyenv install $(cat .python-version)
 ```
 
-#### Dev environment
-Install git hooks:
+Setup Development Environment:
+Install dependencies, update to latest compatible versions, activate virtualenv, and set up git hooks:
 ```shell
+poetry install
+poetry update
+poetry shell
 pre-commit install
 ```
 
-### Testing
-To run unit tests:
+### Development Tools
+
+All code quality tools run automatically on commit via pre-commit hooks:
+- **Black**: Code formatting
+- **Ruff**: Fast Python linter
+- **MyPy**: Static type checking
+- **Pytest**: Testing (including doctests)
+
+To run tools manually:
 ```shell
+# Run all checks
+pre-commit run --all-files
+
+# Or run individual tools
+pre-commit run black --all-files
+pre-commit run ruff --all-files
+pre-commit run mypy --all-files
+
+# Only pytest needs to run directly since it uses the project environment
 pytest
 ```
 
-### Virtual env ###
-Use poetry to manage your virtual env
+### Virtual Environment
 
-Activate your venv with:
 ```shell
-poetry shell
+poetry shell  # Activate virtualenv
+exit          # Deactivate virtualenv
 ```
 
-Deactivate your venv with:
+### Managing Dependencies
+
+Add new dependencies:
 ```shell
-exit
+poetry add <package>              # Add regular dependency
+poetry add --group=dev <package>  # Add dev dependency
+poetry add --group=test <package> # Add test dependency
 ```
 
-### Linter ###
-To check linting rules:
+Update dependencies:
 ```shell
-ruff check .
-```
-
-To automatically fix linting issues where possible:
-```shell
-ruff check --fix . 
-```
-
-### Code Formatter ###
-```shell
-black .
-```
-
-### Managing dependencies with poetry
-
-Add dependencies:
-```shell
-poetry add <dep1> <dep2>
-```
-
-Add a dev dependency:
-```shell
-poetry add --group=dev <dep>
-```
-
-Add a test dependency:
-```shell
-poetry add --group=test <dep>
-```
-
-Update a dependency:
-```shell
-poetry upgrade <dep>
-```
-
-Update all dependencies:
-```shell
-poetry upgrade
+poetry update           # Update all dependencies
+poetry update <package> # Update a specific dependency
 ```

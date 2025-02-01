@@ -142,7 +142,7 @@ def update_python_version(config: ProjectConfig) -> None:
     )
 
     # Update mypy config
-    content = re.sub(r'python_version = "3.10"', f'python_version = "{config.python_version}"', content)
+    content = re.sub(r'python_version = "\d+\.\d+"', f'python_version = "{config.python_version}"', content)
 
     with open("pyproject.toml", "w") as f:
         f.write(content)

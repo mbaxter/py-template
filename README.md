@@ -89,8 +89,6 @@ All code quality tools run automatically on commit via pre-commit hooks:
 - **Ruff**: Fast Python linter
 - **MyPy**: Static type checking
 - **Pytest**: Testing (including doctests)
-- **Safety**: Dependency vulnerability checking
-- **Bandit**: Security linting
 
 To run tools manually:
 ```shell
@@ -101,8 +99,6 @@ pre-commit run --all-files
 pre-commit run black --all-files
 pre-commit run ruff --all-files
 pre-commit run mypy --all-files
-pre-commit run bandit --all-files
-pre-commit run safety --all-files
 
 # Only pytest needs to run directly since it uses the project environment
 pytest

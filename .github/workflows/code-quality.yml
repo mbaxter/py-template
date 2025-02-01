@@ -1,4 +1,4 @@
-name: Linter
+name: Code Quality
 
 on:
   push:
@@ -7,13 +7,14 @@ on:
     branches: ['main']
 
 jobs:
-  lint:
+  check:
+    name: ${{ matrix.checker }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
         python-version: ["3.11"]
-        linter: [black, mypy, ruff]
+        checker: [black, mypy, ruff]
 
     steps:
       - uses: actions/checkout@v3
@@ -25,5 +26,5 @@ jobs:
         uses: snok/install-poetry@v1
       - name: Install dependencies
         run: poetry install
-      - name: Run ${{ matrix.linter }}
-        run: poetry run pre-commit run ${{ matrix.linter }} --all-files
+      - name: Run ${{ matrix.checker }}
+        run: poetry run pre-commit run ${{ matrix.checker }} --all-files

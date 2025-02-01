@@ -153,18 +153,18 @@ def update_python_version(config: ProjectConfig) -> None:
         for workflow_file in workflow_dir.glob("*.yml"):
             with open(workflow_file, "r") as f:
                 content = f.read()
-            
+
             # Common patterns for Python version specification in workflows
             patterns = [
-                (r'python-version: \[.*?\]', f'python-version: ["{config.python_version}"]'),
+                (r"python-version: \[.*?\]", f'python-version: ["{config.python_version}"]'),
                 (r'python-version: ["\']\d+\.\d+["\']', f'python-version: "{config.python_version}"'),
-                (r'python-version: \d+\.\d+', f'python-version: {config.python_version}'),
+                (r"python-version: \d+\.\d+", f"python-version: {config.python_version}"),
             ]
-            
+
             new_content = content
             for pattern, replacement in patterns:
                 new_content = re.sub(pattern, replacement, new_content)
-            
+
             # Only write if changes were made
             if new_content != content:
                 with open(workflow_file, "w") as f:
